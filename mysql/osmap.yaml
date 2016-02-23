@@ -17,6 +17,13 @@ Ubuntu:
 
 CentOS:
   config_directory: /etc/my.cnf.d/
+
+  library_config:
+    file: client.cnf
+    sections:
+      client:
+        default_character_set: utf8
+
   server_config:
     file: server.cnf
     sections:
