@@ -7,7 +7,6 @@ mysql:
   pythonpkg: python-mysqldb
   devpkg: mysql-devel
   debconf_utils: debconf-utils
-
   config:
     file: /etc/mysql/my.cnf
     sections:
@@ -19,6 +18,58 @@ mysql:
         user: mysql
         socket: /var/run/mysqld/mysqld.sock
         port: 3306
+        basedir: /usr
+        datadir: /var/lib/mysql
+        tmpdir: /tmp
+        lc_messages_dir:  /usr/share/mysql
+        skip_external_locking: noarg_present
+        bind_address: 127.0.0.1
+        key_buffer_size: 16M
+        max_allowed_packet: 16M
+        thread_stack: 192K
+        thread_cache_size: 8
+        query_cache_limit: 1M
+        query_cache_size: 16M
+        expire_logs_days: 10
+        max_binlog_size: 100M
+      mysqldump:
+        quick: noarg_present
+        quote_names: noarg_present
+        max_allowed_packet: 16M
+      isamchk:
+        key_buffer_size: 16M
+    append: |
+      !includedir /etc/mysql/conf.d/
+CentOS:
+  # https://mariadb.com/blog/rhel7-transition-mysql-mariadb-first-look
+  {%- if salt['grains.get']('osmajorrelease') in ['7'] %}
+  {% set mysql_engine = 'mariadb' %}
+  {% set mysql_service = 'mariadb' %}
+  {%- else %}
+  {% set mysql_engine = 'mysql' %}
+  {% set mysql_service = 'mysqld' %}
+  {%- endif %}
+
+  server: {{ mysql_engine }}-server
+  service: {{ mysql_service }}
+  client: {{ mysql_engine }}
+  python: MySQL-python
+  dev: {{ mysql_engine }}-devel
+  config_directory: /etc/my.cnf.d/
+  config:
+    file: /etc/my.cnf
+  library_config:
+    file: client.cnf
+    sections:
+      client:
+        default_character_set: utf8
+  server_config:
+    file: server.cnf
+    sections:
+      mysqld_safe:
+        log_error: /var/log/{{ mysql_engine }}/mysqld.log
+        pid_file: /var/run/{{ mysql_engine }}/mysqld.pid
+      mysqld:
         datadir: /var/lib/mysql
 
   macos:
