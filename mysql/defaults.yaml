@@ -108,6 +108,11 @@ CentOS:
   config_directory: /etc/my.cnf.d/
   config:
     file: /etc/my.cnf
+  library_config:
+    file: client.cnf
+    sections:
+      client:
+        default_character_set: utf8
   server_config:
     file: server.cnf
     sections:
