@@ -16,7 +16,12 @@ Ubuntu:
       !includedir /etc/mysql/conf.d/
 
 CentOS:
+  aws_kms_pkg: MariaDB-aws-key-management
+
   config_directory: /etc/my.cnf.d/
+
+  aws_kms_config:
+    file: aws-kms.cnf
 
   library_config:
     file: client.cnf
