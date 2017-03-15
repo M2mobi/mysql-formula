@@ -65,6 +65,19 @@ mysql_clients_config:
     {% endif %}
 {% endif %}
 
+{% if "aws_kms_config" in mysql %}
+mysql_aws_kms_config:
+  file.managed:
+    - name: {{ mysql.config_directory + mysql.aws_kms_config.file }}
+    - template: jinja
+    - source: salt://mysql/files/aws-kms.cnf
+    {% if os_family in ['Debian', 'Gentoo', 'RedHat'] %}
+    - user: root
+    - group: root
+    - mode: 644
+    {% endif %}
+{% endif %}
+
 {% endif %}
 
 mysql_config:

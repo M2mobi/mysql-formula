@@ -104,6 +104,7 @@ CentOS:
   service: {{ mysql_service }}
   client: {{ mysql_engine }}
   python: MySQL-python
+  aws_kms: MariaDB-aws-key-management
   dev: {{ mysql_engine }}-devel
   config_directory: /etc/my.cnf.d/
   config:
@@ -113,6 +114,8 @@ CentOS:
     sections:
       client:
         default_character_set: utf8
+  aws_kms_config:
+    file: aws-kms.cnf
   server_config:
     file: server.cnf
     sections:
