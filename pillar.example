@@ -120,6 +120,13 @@ mysql:
         - database: foo
           grants: ['select', 'insert', 'update']
 
+  # Manage encryption with AWS KMS
+  aws_kms
+    access_key_id: ASFG2467DBD4GEH7TBS
+    secret_access_key: sfg5kfdbSHGS/sdf5AFG45GgfgGGNsgnsgfs67
+    region: eu-central-1
+    master_key_id: alias/mysql_encryption
+
   # Override any names defined in map.jinja
   # serverpkg: mysql-server
   # clientpkg: mysql-client

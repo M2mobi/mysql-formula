@@ -9,6 +9,7 @@
 
 {% set mysql_dev = salt['pillar.get']('mysql:dev:install', False) %}
 {% set mysql_salt_user = salt['pillar.get']('mysql:salt_user:salt_user_name', False) %}
+{% set mysql_aws_kms = salt['pillar.get']('mysql:aws_kms:master_key_id', False) %}
 
 include:
   - .server
@@ -19,6 +20,9 @@ include:
   - .user
 {% if mysql_dev %}
   - .dev
+{% endif %}
+{% if mysql_aws_kms %}
+  - mysql.aws-kms
 {% endif %}
 
 
