@@ -72,7 +72,8 @@ mysql_clients_config:
     {% endif %}
 {% endif %}
 
-{% if "aws_kms_config" in mysql %}
+{% set mysql_aws_kms = salt['pillar.get']('mysql:aws_kms:master_key_id', False) %}
+{% if "aws_kms_config" in mysql and mysql_aws_kms %}
 mysql_aws_kms_config:
   file.managed:
     - name: {{ mysql.config_directory + mysql.aws_kms_config.file }}
