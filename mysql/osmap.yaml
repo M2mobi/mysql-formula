@@ -20,6 +20,9 @@ CentOS:
 
   config_directory: /etc/my.cnf.d/
 
+  audit_config:
+    file: audit.cnf
+
   aws_kms_config:
     file: aws-kms.cnf
 
