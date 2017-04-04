@@ -29,6 +29,9 @@ CentOS:
       client:
         default_character_set: utf8
 
+  oqgraph_config:
+    file: oqgraph.cnf
+
   server_config:
     file: server.cnf
     sections:
