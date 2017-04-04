@@ -72,6 +72,19 @@ mysql_clients_config:
     {% endif %}
 {% endif %}
 
+{% if "tokudb_config" in mysql %}
+mysql_tokudb_config:
+  file.managed:
+    - name: {{ mysql.config_directory + mysql.tokudb_config.file }}
+    - template: jinja
+    - source: salt://mysql/files/tokudb.cnf
+    {% if os_family in ['Debian', 'Gentoo', 'RedHat'] %}
+    - user: root
+    - group: root
+    - mode: 644
+    {% endif %}
+{% endif %}
+
 {% set mysql_aws_kms = salt['pillar.get']('mysql:aws_kms:master_key_id', False) %}
 {% if "aws_kms_config" in mysql and mysql_aws_kms %}
 mysql_aws_kms_config:

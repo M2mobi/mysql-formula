@@ -74,6 +74,22 @@ CentOS:
         pid_file: /var/run/{{ mysql_engine }}/mysqld.pid
       mysqld:
         datadir: /var/lib/mysql
+        socket: /var/lib/mysql/mysql.sock
+        user: mysql
+        port: 3306
+        bind_address: 127.0.0.1
+        symbolic_links: 0
+  tokudb_config:
+    file: tokudb.cnf
+RedHat:
+  # https://mariadb.com/blog/rhel7-transition-mysql-mariadb-first-look
+  {%- if salt['grains.get']('osmajorrelease') in ['7'] %}
+  {% set mysql_engine = 'mariadb' %}
+  {% set mysql_service = 'mariadb' %}
+  {%- else %}
+  {% set mysql_engine = 'mysql' %}
+  {% set mysql_service = 'mysqld' %}
+  {%- endif %}
 
   macos:
     userhomes: /Users
