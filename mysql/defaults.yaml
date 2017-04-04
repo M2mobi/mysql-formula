@@ -83,6 +83,8 @@ CentOS:
     file: tokudb.cnf
   oqgraph_config:
     file: oqgraph.cnf
+  audit_config:
+    file: audit.cnf
 RedHat:
   # https://mariadb.com/blog/rhel7-transition-mysql-mariadb-first-look
   {%- if salt['grains.get']('osmajorrelease') in ['7'] %}
