@@ -39,6 +39,9 @@ CentOS:
         socket: /var/lib/mysql/mysql.sock
         bind_address: 127.0.0.1
 
+  tokudb_config:
+    file: tokudb.cnf
+
 Fedora:
   serverpkg: mariadb-server
   clientpkg: mariadb
