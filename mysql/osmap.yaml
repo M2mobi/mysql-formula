@@ -23,6 +23,9 @@ CentOS:
   audit_config:
     file: audit.cnf
 
+  auth_config:
+    file: authentication.cnf
+
   aws_kms_config:
     file: aws-kms.cnf
 
