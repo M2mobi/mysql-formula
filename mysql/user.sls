@@ -44,6 +44,9 @@ include:
     - password: '{{ user['password'] }}'
   {%- else %}
     - allow_passwordless: True
+  {%- if user['unix_socket'] is defined and user['unix_socket'] == True %}
+    - unix_socket: True
+  {%- endif %}
   {%- endif %}
     - connection_host: '{{ mysql_host }}'
     - connection_user: '{{ mysql_salt_user }}'

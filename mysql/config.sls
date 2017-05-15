@@ -13,6 +13,17 @@ mysql_config_directory:
     {% endif %}
     - makedirs: True
 
+mysql_auth_config:
+  file.managed:
+    - name: {{ mysql.config_directory + mysql.auth_config.file }}
+    - template: jinja
+    - source: salt://mysql/files/authentication.cnf
+    {% if os_family in ['Debian', 'Gentoo', 'RedHat'] %}
+    - user: root
+    - group: root
+    - mode: 644
+    {% endif %}
+
 {% if "server_config" in mysql %}
 mysql_server_config:
   file.managed:
