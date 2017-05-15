@@ -85,6 +85,8 @@ CentOS:
     file: oqgraph.cnf
   audit_config:
     file: audit.cnf
+  auth_config:
+    file: authentication.cnf
 RedHat:
   # https://mariadb.com/blog/rhel7-transition-mysql-mariadb-first-look
   {%- if salt['grains.get']('osmajorrelease') in ['7'] %}
