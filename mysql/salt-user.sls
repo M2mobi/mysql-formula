@@ -8,6 +8,7 @@ include:
 {%- set mysql_root_user = salt['pillar.get']('mysql:server:root_user', 'root') %}
 {%- set mysql_root_pass = salt['pillar.get']('mysql:server:root_password', salt['grains.get']('server_id')) %}
 {%- set mysql_root_hash = salt['pillar.get']('mysql:server:root_password_hash', None) %}
+{%- set mysql_root_socket = salt['pillar.get']('mysql:server:root_unix_socket', None) %}
 
 {%- set mysql_host = salt['pillar.get']('mysql:server:host', 'localhost') %}
 {%- if mysql_host == 'localhost' %}
@@ -146,7 +147,10 @@ extend:
     mysql_user.present:
       - name: {{ mysql_root_user }}
       - host: 'localhost'
-      {%- if mysql_root_hash != None %}
+      {%- if mysql_root_socket != None %}
+      - allow_passwordless: True
+      - unix_socket: True
+      {%- elif mysql_root_hash != None %}
       - password_hash: '{{ mysql_root_hash }}'
       {%- elif mysql_root_pass != None %}
       - password: '{{ mysql_root_pass }}'
