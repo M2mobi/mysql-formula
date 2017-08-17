@@ -3,6 +3,7 @@ include:
 
 {% from "mysql/defaults.yaml" import rawmap with context %}
 {%- set mysql = salt['grains.filter_by'](rawmap, grain='os', merge=salt['pillar.get']('mysql:lookup')) %}
+{% set os_family = salt['grains.get']('os_family', None) %}
 
 {% set aws_credentials_path = mysql.config_directory + 'aws/credentials.env' %}
 {% set aws_access_key_id = salt['pillar.get']('mysql:aws_kms:access_key_id', '') %}
@@ -32,3 +33,19 @@ mysql_systemd_aws_kms_conf:
     - user: root
     - group: root
     - mode: 644
+
+{% set mysql_aws_kms = salt['pillar.get']('mysql:aws_kms:master_key_id', False) %}
+{% if "aws_kms_config" in mysql and mysql_aws_kms %}
+mysql_aws_kms_config:
+  file.managed:
+    - name: {{ mysql.config_directory + mysql.aws_kms_config.file }}
+    - template: jinja
+    - source: salt://mysql/files/aws-kms.cnf
+    {% if os_family in ['Debian', 'Gentoo', 'RedHat'] %}
+    - context:
+      tpldir: {{ tpldir }}
+    - user: root
+    - group: root
+    - mode: 644
+    {% endif %}
+{% endif %}
