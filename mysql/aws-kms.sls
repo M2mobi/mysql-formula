@@ -47,3 +47,10 @@ mysql_aws_kms_config:
     - mode: 644
     {% endif %}
 {% endif %}
+
+mysql_aws_service_reload:
+  module.run:
+    - name: service.systemctl_reload
+    - watch:
+      - file: mysql_systemd_aws_kms_conf
+      - file: mysql_aws_credentials
