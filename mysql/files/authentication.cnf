@@ -10,7 +10,7 @@
   {%- do auth.update({'socket': True}) -%}
 {%- endif -%}
 
-{%- if mysql.user is defined -%}
+{%- if mysql.user is defined and mysql.user != None -%}
   {%- for name, user in mysql.user.items() -%}
     {%- if user['unix_socket'] is defined and user['unix_socket'] == True -%}
       {%- do auth.update({'socket': True}) -%}
