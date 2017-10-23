@@ -8,11 +8,11 @@ include:
 # TODO: Add Debian and Suse systems.
 # TODO: Allow user to specify MySQL version and alter yum repo file accordingly.
 {% if grains['os_family'] == 'RedHat' %}
-  {% if grains['osmajorrelease'][0] == '5' %}
+  {% if ( grains['saltversion'] >= '2017.7.0' and grains['osmajorrelease'] == 5 ) or ( grains['saltversion'] < '2017.7.0' and grains['osmajorrelease'][0] == '5' ) %}
   {% set rpm_source = "http://repo.mysql.com/mysql57-community-release-el5.rpm" %}
-  {% elif grains['osmajorrelease'][0] == '6' %}
+  {% elif ( grains['saltversion'] >= '2017.7.0' and grains['osmajorrelease'] == 6 ) or ( grains['saltversion'] < '2017.7.0' and grains['osmajorrelease'][0] == '6' ) %}
   {% set rpm_source = "http://repo.mysql.com/mysql57-community-release-el6.rpm" %}
-  {% elif grains['osmajorrelease'][0] == '7' %}
+  {% elif ( grains['saltversion'] >= '2017.7.0' and grains['osmajorrelease'] == 7 ) or ( grains['saltversion'] < '2017.7.0' and grains['osmajorrelease'][0] == '7' ) %}
   {% set rpm_source = "http://repo.mysql.com/mysql57-community-release-el7.rpm" %}
   {% endif %}
 {% endif %}
