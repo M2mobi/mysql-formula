@@ -11,6 +11,7 @@
 include:
   - .python
 
+{% if salt['pillar.get']('mysql:database', []) != None %}
 {% for database_obj in salt['pillar.get']('mysql:database', []) %}
 {% set state_id = 'mysql_db_' ~ loop.index0 %}
 {% set database = database_obj.get('name') if database_obj is mapping else database_obj %}
@@ -52,3 +53,4 @@ include:
 
 {% do db_states.append(state_id) %}
 {% endfor %}
+{% endif %}
