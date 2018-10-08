@@ -162,6 +162,22 @@ mysqld-packages:
       - file: mysql_config_directory
 {%- endif %}
 
+{% if 'tokudb' in mysql %}
+mysql-packages-tokudb:
+  pkg.installed:
+    - name: {{ mysql.tokudbpkg }}
+    - require_in:
+      - file: mysql_config
+{% endif %}
+
+{% if 'oqgraph' in mysql %}
+mysql-packages-oqgraph:
+  pkg.installed:
+    - name: {{ mysql.oqgraphpkg }}
+    - require_in:
+      - file: mysql_config
+{% endif %}
+
 {%- if os_family in ['RedHat', 'Suse'] and mysql.version is defined and mysql.version >= 5.7 and mysql.serverpkg.lower() != 'mariadb-server' %}
 # Initialize mysql database with --initialize-insecure option before starting service so we don't get locked out.
 mysql_initialize:
