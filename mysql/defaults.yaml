@@ -53,6 +53,8 @@ CentOS:
   server: {{ mysql_engine }}-server
   service: {{ mysql_service }}
   client: {{ mysql_engine }}
+  oqgraph: MariaDB-oqgraph-engine
+  tokudb: MariaDB-tokudb-engine
   python: MySQL-python
   aws_kms: MariaDB-aws-key-management
   dev: {{ mysql_engine }}-devel
