@@ -17,6 +17,8 @@ Ubuntu:
 
 CentOS:
   aws_kms_pkg: MariaDB-aws-key-management
+  oqgraphpkg: MariaDB-oqgraph-engine
+  tokudbpkg: MariaDB-tokudb-engine
 
   config_directory: /etc/my.cnf.d/
 
