@@ -24,24 +24,53 @@ Ubuntu:
 
 CentOS:
   # https://mariadb.com/blog/rhel7-transition-mysql-mariadb-first-look
-  {%- if salt['grains.get']('osmajorrelease')|int in [7] %}
-    {% set fork = 'mariadb' %}
-    {% set service = 'mariadb' %}
+  {%- if salt['grains.get']('osmajorrelease') in ['7'] %}
+  {% set mysql_engine = 'mariadb' %}
+  {% set mysql_service = 'mariadb' %}
   {%- else %}
-    {% set fork = 'mysql' %}
-    {% set service = 'mysqld' %}
+  {% set mysql_engine = 'mysql' %}
+  {% set mysql_service = 'mysqld' %}
   {%- endif %}
 
+  server: {{ mysql_engine }}-server
+  service: {{ mysql_service }}
+  client: {{ mysql_engine }}
+  oqgraph: MariaDB-oqgraph-engine
+  tokudb: MariaDB-tokudb-engine
+  python: MySQL-python
+  aws_kms: MariaDB-aws-key-management
+  dev: {{ mysql_engine }}-devel
   config_directory: /etc/my.cnf.d/
+  config:
+    file: /etc/my.cnf
+  library_config:
+    file: client.cnf
+    sections:
+      client:
+        default_character_set: utf8
+  aws_kms_config:
+    file: aws-kms.cnf
   server_config:
     file: server.cnf
     sections:
       mysqld_safe:
-        log_error: /var/log/{{ fork }}/mysqld.log
-        pid_file: /var/run/{{ fork }}/mysqld.pid
+        log_error: /var/log/{{ mysql_engine }}/mysqld.log
+        pid_file: /var/run/{{ mysql_engine }}/mysqld.pid
       mysqld:
+        datadir: /var/lib/mysql
         socket: /var/lib/mysql/mysql.sock
+        user: mysql
+        port: 3306
         bind_address: 127.0.0.1
+        symbolic_links: 0
+  tokudb_config:
+    file: tokudb.cnf
+  oqgraph_config:
+    file: oqgraph.cnf
+  audit_config:
+    file: audit.cnf
+  auth_config:
+    file: authentication.cnf
 
 Fedora:
   serverpkg: mariadb-server
