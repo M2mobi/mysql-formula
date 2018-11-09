@@ -6,6 +6,8 @@ mysql_config_directory:
   file.directory:
     - name: {{ mysql.config_directory }}
     {% if os_family in ['Debian', 'Gentoo', 'RedHat'] %}
+    - context:
+      tpldir: {{ tpldir }}
     - user: root
     - group: root
     - mode: 755
@@ -18,6 +20,8 @@ mysql_auth_config:
     - template: jinja
     - source: salt://mysql/files/authentication.cnf
     {% if os_family in ['Debian', 'Gentoo', 'RedHat'] %}
+    - context:
+      tpldir: {{ tpldir }}
     - user: root
     - group: root
     - mode: 644
@@ -90,6 +94,8 @@ mysql_tokudb_config:
     - template: jinja
     - source: salt://mysql/files/tokudb.cnf
     {% if os_family in ['Debian', 'Gentoo', 'RedHat'] %}
+    - context:
+      tpldir: {{ tpldir }}
     - user: root
     - group: root
     - mode: 644
@@ -103,6 +109,8 @@ mysql_oqgraph_config:
     - template: jinja
     - source: salt://mysql/files/oqgraph.cnf
     {% if os_family in ['Debian', 'Gentoo', 'RedHat'] %}
+    - context:
+      tpldir: {{ tpldir }}
     - user: root
     - group: root
     - mode: 644
@@ -116,6 +124,8 @@ mysql_audit_config:
     - template: jinja
     - source: salt://mysql/files/audit.cnf
     {% if os_family in ['Debian', 'Gentoo', 'RedHat'] %}
+    - context:
+      tpldir: {{ tpldir }}
     - user: root
     - group: root
     - mode: 644
