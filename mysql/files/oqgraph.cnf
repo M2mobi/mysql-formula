@@ -9,12 +9,12 @@
 {#-
 ===== COMBINE DATA =====
 -#}
-{%- if "sections" not in datamap.oqgraph_config -%}
-{%- do datamap.oqgraph_config.update({"sections":{}}) -%}
+{%- if "sections" not in mysql.oqgraph_config -%}
+{%- do mysql.oqgraph_config.update({"sections":{}}) -%}
 {%- endif -%}
-{%- set goodParamList = datamap.oqgraph_config.sections -%}
+{%- set goodParamList = mysql.oqgraph_config.sections -%}
 {%- for section_name in supported_sections -%}
-	{%- set sectdict = datamap.oqgraph_config.sections[section_name] | default({}) -%}
+	{%- set sectdict = mysql.oqgraph_config.sections[section_name] | default({}) -%}
 	{%- for mparam, mvalue in salt['pillar.get']('mysql:oqgraph:'+section_name, {}).items() -%}
 		{%- set mparamUnderscore = mparam | replace('-','_') -%}
 		{%- do sectdict.update({mparamUnderscore:mvalue}) -%}
@@ -41,4 +41,4 @@
 {%- endif -%}
 {%- endfor %}
 
-{{ datamap.oqgraph_config.append | default('') }}
+{{ mysql.oqgraph_config.append | default('') }}
