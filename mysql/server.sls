@@ -198,7 +198,7 @@ mysql_initialize:
     - user: mysql
     - group: mysql
     - makedirs: True
-    - require:
+    - require_in:
       - pkg: {{ mysql.serverpkg }}
 {%- endif %}
 
