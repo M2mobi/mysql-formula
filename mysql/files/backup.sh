@@ -18,6 +18,9 @@ function report() {
   else
     SIZE=$(du -sb $BACKUP_PATH | grep -o '[0-9]*' | head -1)
   fi
+  if [ -z "$SIZE" ]; then
+    SIZE=0
+  fi
 {%- if 'influxdb' in config %}
   {% set comma = joiner(",") -%}
   TAGS="{% for key,item in config.influxdb.tags.items() -%}
