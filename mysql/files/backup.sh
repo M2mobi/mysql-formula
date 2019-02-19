@@ -51,6 +51,11 @@ if [ ! -d "$TARGET_DIR/base" ]; then
   report "initial" "$TARGET_DIR/base" $STATUS
 else
   if [ $(date -d "-6 days" +%s) -ge $(date -r "$TARGET_DIR/base" +%s) ]; then
+    if [ -e "$TARGET_DIR/base_new" ]; then
+      # cleanup incomplete full backup
+      rm -rf "$TARGET_DIR/base_new"
+    fi
+
     $BACKUP_CMD --backup $TABLES --target-dir="$TARGET_DIR/base_new" {{auth}}
     STATUS=$?
 
