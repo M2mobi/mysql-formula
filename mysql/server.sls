@@ -190,18 +190,6 @@ mysql_initialize:
       - pkg: {{ mysql.serverpkg }}
 {%- endif %}
 
-{%- if os_family in ['RedHat', 'Suse'] and mysql.serverpkg.lower() == 'mariadb-server' %}
-# For MariaDB it's enough to only create the datadir
-mysql_initialize:
-  file.directory:
-    - name: {{ mysql_datadir }}
-    - user: mysql
-    - group: mysql
-    - makedirs: True
-    - require_in:
-      - pkg: {{ mysql.serverpkg }}
-{%- endif %}
-
 {%- if os_family in ['Gentoo'] %}
 mysql_initialize:
   cmd.run:
@@ -238,8 +226,6 @@ mysqld-service-running:
       and mysql.version >= 5.7 and mysql.serverpkg.lower() != 'mariadb-server')
       or (os_family in ['Gentoo', 'FreeBSD']) %}
       - cmd: mysql_initialize
-{%- elif os_family in ['RedHat', 'Suse'] and mysql.serverpkg.lower() == 'mariadb-server' %}
-      - file: {{ mysql_datadir }}
 {%- endif %}
     - watch:
       - pkg: {{ mysql.serverpkg }}
