@@ -43,6 +43,11 @@ else
   TABLES=""
 fi
 
+if [ ! -e "$TARGET_DIR/base/xtrabackup_checkpoints" ]; then
+  # remove faulty full backup
+  rm -rf "$TARGET_DIR/base"
+fi
+
 if [ ! -d "$TARGET_DIR/base" ]; then
   echo "No base backup exists."
   mkdir -p "$TARGET_DIR/base"
