@@ -77,7 +77,7 @@ else
     exit 0
   fi
 
-  if [ -d "$TARGET_DIR/inc-$DATE_YESTERDAY" ]; then
+  if [ -d "$TARGET_DIR/inc-$DATE_YESTERDAY" ] && [ -f "$TARGET_DIR/inc-$DATE_YESTERDAY/xtrabackup_checkpoints" ]; then
     DATE_FILE="inc-"$DATE_YESTERDAY
   else
     DATE_FILE="base"
