@@ -1,6 +1,7 @@
 #!/bin/bash
 START_TIME=$(date +"%s")
 BACKUP_CMD="{{ backup_cmd }}"
+S3_DIR="{{ config.s3_dir }}"
 TARGET_DIR="{{ config.target_dir }}"
 
 DATE_TODAY=$(date --rfc-3339=date)
@@ -57,6 +58,12 @@ if [ ! -d "$TARGET_DIR/base" ]; then
 else
   if [ $(date -d "-6 days" +%s) -ge $(date -r "$TARGET_DIR/base" +%s) ]; then
     if [ -e "$TARGET_DIR/base_new" ]; then
+      # if we use S3 remount it, just to be sure it didn't get stuck
+      if ! [ -z "$S3_DIR" ]; then
+        umount "$S3_DIR"
+        mount "$S3_DIR"
+      fi
+
       # cleanup incomplete full backup
       rm -rf "$TARGET_DIR/base_new"
     fi
