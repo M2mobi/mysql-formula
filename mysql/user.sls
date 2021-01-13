@@ -22,13 +22,16 @@ include:
 {%- endif %}
 
 {%- if not user_hosts %}
-  {%- set mine_target = salt['pillar.get']('mysql:user:%s:mine_hosts:target'|format(name)) %}
-  {%- set mine_function = salt['pillar.get']('mysql:user:%s:mine_hosts:function'|format(name)) %}
-  {%- set mine_expression_form = salt['pillar.get']('mysql:user:%s:mine_hosts:expr_form'|format(name)) %}
+  {%- set mine_hosts = salt['pillar.get']('mysql:user:%s:mine_hosts'|format(name)) %}
+  {%- set user_hosts = [] %}
 
-  {%- if mine_target and mine_function and mine_expression_form %}
-    {%- set user_hosts = salt['mine.get'](mine_target, mine_function, mine_expression_form).values() %}
+  {%- for mine_config in mine_hosts %}
+
+  {%- if mine_config['target'] and mine_config['function'] and mine_config['expr_form'] %}
+    {%- do user_hosts.extend(salt['mine.get'](mine_config['target'], mine_config['function'], mine_config['expr_form']).values()) %}
   {%- endif %}
+
+  {%- endfor %}
 {%- endif %}
 
 {%- for host in user_hosts %}
