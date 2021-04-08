@@ -46,7 +46,14 @@ fi
 
 # s3fs manages to get stuck in odd ways. Before we access the mount point, best to remount to be sure
 umount "$S3_DIR"
-mount "$S3_DIR"
+
+if [ "$?" = 0 ]; then
+  mount "$S3_DIR" || mountpoint "$S3_DIR"
+  if [ "$?" != 0 ]; then
+    report "incremental" "$TARGET_DIR/inc-$DATE_TODAY" 5
+    exit 5
+  fi
+fi
 
 if [ ! -e "$TARGET_DIR/base/xtrabackup_checkpoints" ]; then
   # remove faulty full backup
@@ -79,7 +86,7 @@ else
     fi
 
     report "full" "$TARGET_DIR/base" $STATUS
-    exit 0
+    exit $STATUS
   fi
 
   if [ -d "$TARGET_DIR/inc-$DATE_YESTERDAY" ] && [ -f "$TARGET_DIR/inc-$DATE_YESTERDAY/xtrabackup_checkpoints" ]; then
@@ -93,3 +100,5 @@ else
   report "incremental" "$TARGET_DIR/inc-$DATE_TODAY" $STATUS
   echo "File writing incremental backup for $DATE_TODAY"
 fi
+
+exit $STATUS
