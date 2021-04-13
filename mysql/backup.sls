@@ -42,5 +42,12 @@ mysql-script-backup-cronjob:
   cron.present:
     - name: /usr/local/bin/db_backup &>> {{ mysql.backup.log_dir }}/database.log
     - identifier: mysql_backup
+    - minute: 0
+    - hour: 2
+
+mysql-script-backup-cronjob-daily:
+  cron.absent:
+    - name: /usr/local/bin/db_backup &>> {{ mysql.backup.log_dir }}/database.log
+    - identifier: mysql_backup
     - special: '@daily'
 {% endif %}
