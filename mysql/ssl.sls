@@ -12,13 +12,13 @@ openssl genrsa 2048 > ca.key:
     - creates: /etc/my.cnf.d/ssl/ca.key
     - unless: /etc/my.cnf.d/ssl/ca.crt
 
-openssl req -new -x509 -nodes -days 365000 -key ca.key -out ca.crt -subj "/emailAddress=backend@m2mobi.com/C=NL/L=Amsterdam/O=M2mobi/CN={{config.ca_domain}}":
+openssl req -new -x509 -nodes -days 365000 -key ca.key -out ca.crt -subj "/emailAddress=sysadmin@moveagency.com/C=NL/L=Amsterdam/O=M2mobi/CN={{config.ca_domain}}":
   cmd.run:
     - cwd: /etc/my.cnf.d/ssl
     - creates: /etc/my.cnf.d/ssl/ca.crt
     - onlyif: cat /etc/my.cnf.d/ssl/ca.key
 
-openssl req -newkey rsa:2048 -days 365000 -nodes -keyout server.key -out server-req.pem -subj "/emailAddress=backend@m2mobi.com/C=NL/L=Amsterdam/O=M2mobi/CN={{config.server_domain}}":
+openssl req -newkey rsa:2048 -days 365000 -nodes -keyout server.key -out server-req.pem -subj "/emailAddress=sysadmin@moveagency.com/C=NL/L=Amsterdam/O=M2mobi/CN={{config.server_domain}}":
   cmd.run:
     - cwd: /etc/my.cnf.d/ssl
     - creates: /etc/my.cnf.d/ssl/server.key
@@ -39,7 +39,7 @@ rm server-req.pem:
       - cwd: /etc/my.cnf.d/ssl
       - onlyif: cat server-req.pem
 
-openssl req -newkey rsa:2048 -days 365000 -nodes -keyout client.key -out client-req.pem -subj "/emailAddress=backend@m2mobi.com/C=NL/L=Amsterdam/O=M2mobi/CN={{config.client_domain}}":
+openssl req -newkey rsa:2048 -days 365000 -nodes -keyout client.key -out client-req.pem -subj "/emailAddress=sysadmin@moveagency.com/C=NL/L=Amsterdam/O=M2mobi/CN={{config.client_domain}}":
   cmd.run:
     - cwd: /etc/my.cnf.d/ssl
     - creates: /etc/my.cnf.d/ssl/client.key
