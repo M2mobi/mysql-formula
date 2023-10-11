@@ -93,6 +93,8 @@ CentOS Linux-7:
 
 CentOS Linux-8:
   pythonpkg: python3-PyMySQL
+  clientpkg: MariaDB-client
 
 AlmaLinux-9:
   pythonpkg: python3-PyMySQL
+  clientpkg: MariaDB-client
