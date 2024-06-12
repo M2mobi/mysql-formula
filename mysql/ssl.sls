@@ -1,5 +1,5 @@
 {% set config = salt['pillar.get']('mysql:ssl', None) %}
-{% set hierarchy = salt['grains.get']('ec2_tags:hierarchy', None) %}
+{% set hierarchy = salt['grains.get']('tags:hierarchy', None) %}
 {% if config != None and hierarchy == 'master' %}
 # This will create a full stack of certificates, you should only use this once, and copy files over.
 # For replication you should copy over ca.crt, server.key and server.crt
